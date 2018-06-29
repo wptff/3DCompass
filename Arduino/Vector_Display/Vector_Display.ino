@@ -1,24 +1,30 @@
+#include <Adafruit_FXOS8700.h>
+
 /*
   Vector_Display.ino
-
   Displays the orientation of the magnetic vector on two neo-pixel rings.
   North and the inclination are marked by red, faded to blue for contrast.
-
   Created: 10/30/14
   Author: John R. Leeman
   www.johnrleeman.com
   www.github.com/jrleeman
-
   Modified: 7/20/16
   Author: Ryan Claussen
   wwww.github.com/rtclauss
+
+  Modified: 6/29/2018
+  Author: Sam Montoia
+  www.github.com/wptff
+  Modified to fit FXOS8700 Sensor.  
+
+    
 */
 
 
 #include <Adafruit_NeoPixel.h>
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
-#include <Adafruit_HMC5883_U.h>
+#include <Adafruit_FXOS8700.h>
 
 #define PIXELPIN 13 // Pin on the Arduino that the Neopixel chain is connected to
 #define NUMAZ 24  // Number of pixels on the azimuth ring
@@ -44,7 +50,7 @@ float inclination;
 int count = 0;
 
 // Setup neopixel and magnetometer
-Adafruit_HMC5883_Unified mag = Adafruit_HMC5883_Unified(12345);
+Adafruit_FXOS8700 mag = Adafruit_FXOS8700(12345);
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUMAZ + NUMINC, PIXELPIN, NEO_GRB + NEO_KHZ800);
 
 void setup() {
@@ -269,6 +275,5 @@ float calcHeading(float x, float y, float z)
   if (theta > 2*PI){
     theta -= 2*PI;
   }
-
   return theta;
 }
